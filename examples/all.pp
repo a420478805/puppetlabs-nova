@@ -7,7 +7,7 @@ $mysql_root_password  = 'sql_pass'
 $keystone_db_password = 'keystone_pass'
 $keystone_admin_token = 'keystone_admin_token'
 
-$admin_email         = 'dan@puppetlabs.com'
+$admin_email         = 'a420478805@gmail.com'
 $admin_user_password = 'ChangeMe'
 
 $nova_db_password   = 'nova_pass'
