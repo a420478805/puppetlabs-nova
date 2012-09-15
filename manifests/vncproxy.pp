@@ -16,6 +16,18 @@ class nova::vncproxy(
     'novncproxy_port': value => $port;
   }
 
+  nova::config{'vnc':
+        config=>{
+  		'novncproxy_host' => $host,
+		'novncproxy_port' => $port,
+		'novncproxy_base_url'=> 'false',
+                'vncserver_listen'=> 'false',
+   		'vnc_enabled'    =>  'false',
+		'vncserver_proxyclient_address' => 'false',
+ 	},
+	order => '02',
+  }
+
   package { 'python-numpy':
     name   => $::nova::params::numpy_package_name,
     ensure => present,

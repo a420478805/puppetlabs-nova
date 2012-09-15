@@ -113,6 +113,7 @@ class nova(
     ensure  => directory,
     mode    => '0751',
   }
+
   file { '/etc/nova/nova.conf':
     mode  => '0640',
   }
@@ -198,4 +199,33 @@ class nova(
     refreshonly => true,
   }
 
+  concat { '/etc/nova/nova1.conf':
+    owner   => 'nova',
+    group   => 'nova',
+    mode    => '0640',
+  }
+  nova::config{'header':
+	config=>{
+		'verbose' => $verbose,
+    		'logdir' => $logdir,
+    		'state_path' => $state_path,
+    		'lock_path' => $lock_path,
+    		'service_down_time' => $service_down_time,
+    		'root_helper' => $root_helper,
+		'monitoring_notifications'=> $monitoring_notifications,
+		'notification_driver' => 'nova.notifier.rabbit_notifier',
+		'rabbit_host'=> $rabbit_host,
+		'rabbit_password' => $rabbit_password,
+    		'rabbit_port' => $rabbit_port,
+    		'rabbit_userid' => $rabbit_userid,
+    		'rabbit_virtual_host' => $rabbit_virtual_host,
+		'sql_connection' => $sql_connection,
+		'glance_api_servers' => $glance_api_servers,
+		'image_service' => $image_service,
+		'auth_strategy' => $auth_strategy,
+		'use_deprecated_auth' => 'false',
+		'api_paste_config' => '/etc/nova/api-paste.ini',
+	},
+	order =>'01',
+  }
 }

@@ -1,0 +1,16 @@
+#vnc
+--novncproxy_host =<%= config['novncproxy_host']%>
+--novncproxy_port=<%= config['novncproxy_port']%>
+<% if config['novncproxy_base_url'] != 'false' -%>
+--novncproxy_base_url=<%= config['novncproxy_base_url']%>
+<% end -%>
+<% if config['vncserver_listen'] != 'false' -%>
+--vncserver_listen=<%= config['vncserver_listen']%>
+<% end -%>
+<% if config['vnc_enabled'] != 'false' -%>
+--vnc_enabled=<%= config['vnc_enabled']%>
+<% end -%>
+<% if config['vncserver_proxyclient_address'] != 'false' -%>
+--vncserver_proxyclient_address=<%= config['vncserver_proxyclient_address']%>
+<% end -%>
+

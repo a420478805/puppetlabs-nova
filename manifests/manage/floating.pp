@@ -8,6 +8,6 @@ define nova::manage::floating ( $network ) {
     network       => $network,
     provider      => 'nova_manage',
     notify        => Exec["nova-db-sync"],
-  }
+ }
 
 }

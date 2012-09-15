@@ -49,8 +49,43 @@ class nova::volume::iscsi (
       nova_config { 'iscsi_helper': value => 'tgtadm' }
     }
 
-    default: {
-        fail("Unsupported iscsi helper: ${iscsi_helper}. The supported iscsi helper is tgtadm.")
+    'iscsitarget': {
+      package { 'iscsitarget':
+        ensure => present,
+      }
+
+      service { 'iscsitarget':
+        ensure   => running,
+        enable   => true,
+        require  => [Nova::Generic_service['volume'], Package['iscsitarget']],
+      }
+      
+      service { 'open-iscsi':
+        ensure   => running,
+        enable   => true,
+        require  => Service['iscsitarget'],
+      }
+      
+      package { 'iscsitarget-dkms':
+        ensure => present,
+      }
+
+      file { '/etc/default/iscsitarget':
+        content => "ISCSITARGET_ENABLE=true\n",
+      }
     }
+      
+    default: {
+        fail("Unsupported iscsi helper: ${iscsi_helper}. The supported iscsi helper are tgtadm, iscsitarget.")
+    }
+  }
+
+  nova::config{'store':
+    config=>{
+      iscsi_helper => 'iscsi_helper',
+      volume_group => $volume_group,
+      iscsi_ip_address => $iscsi_ip_address,
+    },  
+    order=>'04',
   }
 }

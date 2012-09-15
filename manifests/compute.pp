@@ -9,7 +9,8 @@ class nova::compute(
   $vncproxy_protocol             = 'http',
   $vncproxy_port                 = '6080',
   $vncproxy_path                 = '/vnc_auto.html',
-  $virtio_nic                    = false
+  $virtio_nic                    = false,
+  $vncserver_listen  		 = '127.0.0.1',
  ) {
 
   include nova::params
@@ -49,5 +50,19 @@ class nova::compute(
     # Enable the virtio network card for instances
     nova_config { 'libvirt_use_virtio_for_bridges': value => 'True' }
   }
+
+   nova::config{'vnc':
+        config=>{
+                'vnc_enabled' => $vnc_enabled,
+		'vncserver_proxyclient_address' => $vncserver_proxyclient_address,
+		'novncproxy_base_url' => $vncproxy_base_url,
+        	'vncserver_listen' => $vncserver_listen,
+		'novncproxy_host' => '0.0.0.0',
+		'novncproxy_port' => '6080',
+	},
+        order => '02',
+  }
+
+
 
 }

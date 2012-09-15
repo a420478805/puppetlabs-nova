@@ -27,6 +27,7 @@ class nova::network(
 
   include nova::params
 
+
   # forward all ipv4 traffic
   # this is required for the vms to pass through the gateways
   # public interface
@@ -52,17 +53,18 @@ class nova::network(
     }
   }
 
-  if $create_networks {
-    nova::manage::network { 'nova-vm-net':
-      network       => $fixed_range,
-      num_networks  => $num_networks,
-    }
-    if $floating_range {
-      nova::manage::floating { 'nova-vm-floating':
-        network       => $floating_range,
-      }
-    }
-  }
+
+  #if $create_networks {
+  #  nova::manage::network { 'nova-vm-net':
+  #    network       => $fixed_range,
+  #    num_networks  => $num_networks,
+  #  }
+  #  if $floating_range {
+  #    nova::manage::floating { 'nova-vm-floating':
+  #      network       => $floating_range,
+  #    }
+  #  }
+  #}
 
   case $network_manager {
 
@@ -107,4 +109,19 @@ class nova::network(
     }
   }
 
+  nova::config{'network':
+        config=>{
+                'public_interface' => $public_interface,
+                'flat_interface' => $private_interface,
+                'fixed_range' => $fixed_range,
+                'floating_range' => $floating_range,
+                'network_manager' => $network_manager,
+                'multi_host' => 'True',
+                'flat_injected' => 'False',
+                'flat_network_bridge' => 'br100',
+        	'force_dhcp_release' => 'true',
+		'send_arp_for_ha' => 'False',
+	},
+        order => '03',
+  }
 }

@@ -1,0 +1,36 @@
+--verbose=<%= config['verbose'] %>
+--logdir=<%= config['logdir']%>
+--state_path=<%= config['state_path']%>
+--lock_path=<%= config['lock_path']%>
+--service_down_time=<%= config['service_down_time']%>
+--root_helper=<%= config['root_helper']%>
+<% if config['monitoring_notifications'] == 'yes' -%>
+--notification_driver=<%= config['notification_driver']%>
+<% end -%>
+
+#api_paste
+--api_paste_config=<%= config['api_paste_config']%>
+
+#sql
+--sql_connection=<%= config['sql_connection'] %>
+
+#glance
+--glance_api_servers=<%= config['glance_api_servers'] %>
+--image_service=<%= config['image_service']%>
+
+#keystone
+--auth_strategy=<%= config['auth_strategy'] %>
+--use_deprecated_auth=<%= config['use_deprecated_auth'] %>
+
+#rabbitmq
+--rabbit_host=<%= config['rabbit_host'] %>
+--rabbit_password=<%= config['rabbit_password'] %>
+--rabbit_port=<%= config['rabbit_port'] %>
+--rabbit_userid=<%= config['rabbit_userid'] %>
+--rabbit_virtual_host=<%= config['rabbit_virtual_host']%>
+
+#dhcp
+--dhcpbridge_flagfile=/etc/nova/nova.conf
+--dhcpbridge=/usr/bin/nova-dhcpbridge
+--dhcp_domain=novalocal
+

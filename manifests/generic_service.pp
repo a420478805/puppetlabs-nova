@@ -44,13 +44,14 @@ define nova::generic_service(
       notify => Service[$nova_title],
     }
   }
-
-  if ($service_name) {
-    service { $nova_title:
-      name    => $service_name,
-      ensure  => $service_ensure,
-      enable  => $enabled,
-      require => Package['nova-common'],
+  if (($service_name!="nova-compute") and ($service_name!="nova-network")){
+    if ($service_name) {
+      service { $nova_title:
+        name    => $service_name,
+        ensure  => $service_ensure,
+        enable  => $enabled,
+        require => Package['nova-common'],
+      }
     }
   }
 
